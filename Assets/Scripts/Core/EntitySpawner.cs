@@ -27,7 +27,6 @@ public class EntitySpawner : MonoBehaviour {
         Ray castPoint = Camera.main.ScreenPointToRay(mouse);
         RaycastHit hit;
         if (Physics.Raycast(castPoint, out hit, Mathf.Infinity)) {
-            Debug.Log(hit.point);
             currentPreview.transform.position = new Vector3(hit.point.x, currentPreview.transform.position.y, hit.point.z);
         }
         if (Input.GetMouseButtonDown(0)) {
