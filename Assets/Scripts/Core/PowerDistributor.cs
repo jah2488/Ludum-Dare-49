@@ -9,11 +9,12 @@ using ModelShark;
 [RequireComponent(typeof(PowerAnimator))]
 public class PowerDistributor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     public bool isOn = false;
-    public float range = 5f;
 
     [SerializeField] PowerAnimator powerAnimator;
 
     [SerializeField] TooltipTrigger _tooltipTrigger;
+
+    [SerializeField] PowerRange powerRange;
 
     void Start() {
         SetTooltip();
@@ -24,6 +25,11 @@ public class PowerDistributor : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     public void OnPointerUp(PointerEventData _) {
         Switch(!isOn);
     }
+
+    public float GetRange() {
+        return powerRange.range;
+    }
+
 
     public bool Switch(bool hasPower) {
         if (powerAnimator.IsAnimating()) { return false; }
