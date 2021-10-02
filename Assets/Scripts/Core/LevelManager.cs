@@ -41,17 +41,38 @@ public class LevelManager : MonoBehaviour
 
     private List<GameObject> buildings;
     private List<GameObject> generators;
+    private List<GameObject> pylons;
 
-    void Start()
-    {
+    
+    [Button(ButtonSizes.Large, ButtonStyle.Box, Expanded = true)]
+    public void SpawnGenerator(int x, int z) {
+        var go = Instantiate(generatorPrefab, new Vector3(x, 0, z), Quaternion.identity);
+        generators.Add(go);
+    }
+
+    [Button(ButtonSizes.Large, ButtonStyle.Box, Expanded = true)]
+    public void SpawnPylon(int x, int z) {
+        var go = Instantiate(pylonPrefab, new Vector3(x, 0, z), Quaternion.identity);
+        pylons.Add(go);
+    }
+
+
+    void Awake() {
+        //Get all generators and buildings currently in the scene.
+        buildings = new List<GameObject>();
+        generators = new List<GameObject>();
+        pylons = new List<GameObject>();
+    }
+
+    void Start() {
         uiManager = this.GetComponent<UIManager>();
         buildings = new List<GameObject>();
         generators = new List<GameObject>();
+        pylons = new List<GameObject>();
         Random.seed = seed;
     }
 
-    void Update()
-    {
+    void Update() {
        uiManager.UpdateUI(money, happiness, score, tick);
        updatePowerUI();
 
@@ -77,23 +98,27 @@ public class LevelManager : MonoBehaviour
     }
 
     int getPowerDraw() {
-        //This should calculate the power draw from all buildings
-        return 0;
-        // return buildings.FindAll(x => x.ConnectedToPower() == true).Count;
+        return buildings.FindAll(x => x.GetComponent<PowerConsumer>().ConnectedToPower() == true).Count;
     }
 
     int getPowerNeed() {
-        return buildings.Count;
+        float powerNeed = 0f;
+        foreach (var building in buildings) {
+            powerNeed += building.GetComponent<PowerConsumer>().PowerRequired;
+        }
+        return Mathf.FloorToInt(powerNeed);
     }
 
     int getPowerGenerated() {
-        return generators.Count;
+        float powerGenerated = 0f;
+        foreach (var gen in generators) {
+            powerGenerated += gen.GetComponent<PowerGenerator>().GetOutput();
+        }
+        return Mathf.FloorToInt(powerGenerated);
     }
 
-
-
     void updateHappiness() {
-//        var unPoweredBuildings = buildings.FindAll(x => x.ConnectedToPower() == false).Count;
+        var unPoweredBuildings = buildings.FindAll(x => x.GetComponent<PowerConsumer>().ConnectedToPower() == false).Count;
         var unPoweredBuildingsCount = buildings.Count;
         happiness += buildings.Count;
         happiness -= unPoweredBuildingsCount;
@@ -101,7 +126,7 @@ public class LevelManager : MonoBehaviour
 
     void updateMoney() {
         money += buildings.Count;
-        //money += poweredBuildings.Count * 2;
+        money += buildings.FindAll(x => x.GetComponent<PowerConsumer>().ConnectedToPower() == true).Count * 2;
         money -= generators.Count;
     }
 

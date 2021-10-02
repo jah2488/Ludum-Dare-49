@@ -165,7 +165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c6bc6454a1cd854197a10eaa5a64502, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  powerRequired: 0
+  powerRequired: 2
   hasPower: 0
   onMaterial: {fileID: 2100000, guid: 4e2f0d568f91d0340addf415d51fee32, type: 2}
   offMaterial: {fileID: 2100000, guid: 25838b67682e4534fa2a9ad719cd7303, type: 2}

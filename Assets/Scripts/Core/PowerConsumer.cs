@@ -32,6 +32,10 @@ public class PowerConsumer : MonoBehaviour {
         }
     }
 
+    public bool ConnectedToPower() {
+        return hasPower;
+    }
+
     public float PowerRequired { get { return powerRequired; } }
 
     public void SetPowerRequired(float power) {
