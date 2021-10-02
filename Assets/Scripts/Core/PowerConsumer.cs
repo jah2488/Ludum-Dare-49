@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using MoreMountains.Feedbacks;
+using ModelShark;
 
 // This script can be placed on house game objects
 // It will consume power set in `powerRequired`
@@ -19,6 +20,13 @@ public class PowerConsumer : MonoBehaviour {
 
     [Header("Debug")]
     [SerializeField] bool toggle;
+
+    TooltipTrigger _tooltipTrigger;
+
+    void Start() {
+        _tooltipTrigger = GetComponent<TooltipTrigger>();
+        SetTooltip();
+    }
 
     void Update() {
         if (toggle) {
@@ -63,5 +71,10 @@ public class PowerConsumer : MonoBehaviour {
         _flickerFeedback.PlayFeedbacks();
         yield return new WaitForSeconds(0.75f);
         _light.material = offMaterial;
+    }
+
+    void SetTooltip() {
+        string text = "Demand: " + powerRequired;
+        _tooltipTrigger.SetText("BodyText", text);
     }
 }
