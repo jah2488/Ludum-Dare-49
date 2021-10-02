@@ -10,7 +10,7 @@ using ModelShark;
 [RequireComponent(typeof(Hoverable))]
 public class PowerGenerator : MonoBehaviour {
     [SerializeField] float output;
-    public float range;
+    // public float range;
     [SerializeField] bool isOn = false;
     [SerializeField] MMLineRendererCircle lineRenderer;
 
@@ -19,11 +19,12 @@ public class PowerGenerator : MonoBehaviour {
 
     [SerializeField] PowerAnimator powerAnimator;
     [SerializeField] TooltipTrigger tooltipTrigger;
+    [SerializeField] PowerRange powerRange;
+
 
     void Start() {
         SetTooltip();
         Switch(true);
-        UpdateRange(range);
     }
 
     void Update() {
@@ -32,6 +33,10 @@ public class PowerGenerator : MonoBehaviour {
             powerAnimator.Switch(isOn);
             toggle = false;
         }
+    }
+
+    public float GetRange() {
+        return powerRange.range;
     }
 
     // Returns false if the animation is still underway
@@ -50,14 +55,8 @@ public class PowerGenerator : MonoBehaviour {
         return isOn ? output : 0;
     }
 
-    public void UpdateRange(float range) {
-        this.range = range;
-        lineRenderer.HorizontalRadius = lineRenderer.VerticalRadius = range;
-        lineRenderer.DrawCircle();
-    }
-
     void SetTooltip() {
-        string text = "Output: " + output + "\nRange: " + range;
+        string text = "Output: " + output + "\nRange: " + GetRange();
         tooltipTrigger.SetText("BodyText", text);
     }
 }

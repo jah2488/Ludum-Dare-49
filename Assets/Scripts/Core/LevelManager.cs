@@ -93,7 +93,7 @@ public class LevelManager : MonoBehaviour {
         var pylon = go.GetComponent<PowerDistributor>();
         foreach (var g in generators) {
             var gen = g.GetComponent<PowerGenerator>();
-            var genRange = gen.range;
+            var genRange = gen.GetRange();
             var distance = Vector3.Distance(pylon.transform.position, gen.transform.position);
             if (distance < genRange) {
                 pylon.Switch(true);

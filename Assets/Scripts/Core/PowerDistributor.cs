@@ -15,6 +15,8 @@ public class PowerDistributor : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
     [SerializeField] TooltipTrigger _tooltipTrigger;
 
+    [SerializeField] PowerRange powerRange;
+
     void Start() {
         SetTooltip();
     }
