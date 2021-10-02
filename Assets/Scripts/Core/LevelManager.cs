@@ -1,7 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using Sirenix.OdinInspector;
+
+[System.Serializable]
+public struct WorldBounds {
+    public int x;
+    public int z;
+    public int width;
+    public int height;
+}
 
 public class LevelManager : MonoBehaviour
 {
@@ -14,6 +23,11 @@ public class LevelManager : MonoBehaviour
     [TabGroup("Level Settings")]
     public int tick = 0;
 
+    [TabGroup("Spawn Settings")]
+    [SceneObjectsOnly]
+    public GameObject spawnObject;
+    [TabGroup("Spawn Settings")]
+    public WorldBounds spawnBounds;
     [TabGroup("Spawn Settings")]
     public int maxBuildings = 20;
     [TabGroup("Spawn Settings")]
@@ -56,6 +70,13 @@ public class LevelManager : MonoBehaviour
         pylons.Add(go);
     }
 
+    private void OnDrawGizmosSelected() {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(new Vector3(spawnBounds.x + spawnBounds.width / 2, 0, spawnBounds.z + spawnBounds.height / 2), new Vector3(spawnBounds.width, 1, spawnBounds.height));
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(new Vector3((spawnBounds.x + spawnBounds.width / 2) - spawnBuffer, 0, (spawnBounds.z + spawnBounds.height / 2) - spawnBuffer), new Vector3(spawnBounds.width + spawnBuffer, 1, spawnBounds.height + spawnBuffer));
+   }
+
 
     void Awake() {
         //Get all generators and buildings currently in the scene.
@@ -70,6 +91,10 @@ public class LevelManager : MonoBehaviour
         generators = new List<GameObject>();
         pylons = new List<GameObject>();
         Random.seed = seed;
+
+        if (spawnObject) {
+            spawnObject.transform.position = new Vector3(spawnBounds.x + spawnBounds.width / 2, 0, spawnBounds.z + spawnBounds.height / 2);
+        }
     }
 
     void Update() {
@@ -77,8 +102,7 @@ public class LevelManager : MonoBehaviour
        updatePowerUI();
 
        if (Time.time >= nextTick) {
-           nextTick = Mathf.FloorToInt(Time.time) + 1;
-           tick += 1;
+           nextTick = Mathf.FloorToInt(Time.time) + 1; tick += 1;
            OnTick(tick, Time.deltaTime);
        } 
     }
@@ -137,9 +161,10 @@ public class LevelManager : MonoBehaviour
             return;
         }
 
-        float x = CurveWeighted(spawnLocationCurve) * spawnOffset;
-        float z = CurveWeighted(spawnLocationCurve) * spawnOffset;
+        float x = MapValue(CurveWeighted(spawnLocationCurve), 0, 1, spawnBounds.x + spawnBuffer, spawnBounds.width - spawnBuffer);
+        float z = MapValue(CurveWeighted(spawnLocationCurve), 0, 1, spawnBounds.z + spawnBuffer, spawnBounds.height - spawnBuffer);
 
+        Debug.Log("X:" + x + " Z:" + z);
         validateCoordinates(ref x, ref z);
 
         var go = Instantiate(buildingPrefab, new Vector3(x, 0, z), Quaternion.identity);
@@ -153,13 +178,17 @@ public class LevelManager : MonoBehaviour
         }
         if (Physics.CheckSphere(new Vector3(x, 0, z), spawnBuffer)) {
             Debug.Log("Collision");
-            x = CurveWeighted(spawnLocationCurve) * spawnOffset;
-            z = CurveWeighted(spawnLocationCurve) * spawnOffset;
+            x = MapValue(CurveWeighted(spawnLocationCurve), 0, 1, spawnBounds.x - spawnBuffer, spawnBounds.width + spawnBuffer);
+            z = MapValue(CurveWeighted(spawnLocationCurve), 0, 1, spawnBounds.z - spawnBuffer, spawnBounds.height + spawnBuffer);
             validateCoordinates(ref x, ref z, attempts + 1);
         }
     }
 
     float CurveWeighted(AnimationCurve curve) {
         return curve.Evaluate(Random.value);
+    }
+
+    float MapValue(float value, float fromSource, float toSource, float fromTarget, float toTarget) {
+        return (value - fromSource) / (toSource - fromSource) * (toTarget - fromTarget) + fromTarget;
     }
 }
