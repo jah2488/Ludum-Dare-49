@@ -12,6 +12,7 @@ public class PowerAnimator : MonoBehaviour {
     [SerializeField] Material onMaterial;
     [SerializeField] Material offMaterial;
     [SerializeField] List<MeshRenderer> lights;
+    [SerializeField] GameObject pointLight;
 
     [Header("Debug")]
     [SerializeField] bool toggle;
@@ -45,11 +46,13 @@ public class PowerAnimator : MonoBehaviour {
             light.material = onMaterial;
             yield return new WaitForSeconds(waitTime);
         }
+        pointLight?.SetActive(true);
         animating = false;
     }
 
     IEnumerator TurnOffCoroutine() {
         animating = true;
+        pointLight?.SetActive(false);
         for (int i = lights.Count - 1; i >= 0; i--) {
             lights[i].material = offMaterial;
             yield return new WaitForSeconds(waitTime);

@@ -9,7 +9,6 @@ using ModelShark;
 [RequireComponent(typeof(PowerAnimator))]
 public class PowerDistributor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     public bool isOn = false;
-    public float range = 5f;
 
     [SerializeField] PowerAnimator powerAnimator;
 
@@ -26,6 +25,11 @@ public class PowerDistributor : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     public void OnPointerUp(PointerEventData _) {
         Switch(!isOn);
     }
+
+    public float GetRange() {
+        return powerRange.range;
+    }
+
 
     public bool Switch(bool hasPower) {
         if (powerAnimator.IsAnimating()) { return false; }

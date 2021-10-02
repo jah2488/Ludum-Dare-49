@@ -84,12 +84,12 @@ public class LevelManager : MonoBehaviour {
 
     public void OnGeneratorSpawned(GameObject go) {
         var gen = go.GetComponent<PowerGenerator>();
-        foreach(var pylon in pylons) {
+        foreach (var pylon in pylons) {
             var pylonScript = pylon.GetComponent<PowerDistributor>();
             var pylonPosition = pylon.transform.position;
             var generatorPosition = go.transform.position;
             var distance = Vector3.Distance(pylonPosition, generatorPosition);
-            if(distance < gen.range) {
+            if (distance < gen.GetRange()) {
                 pylonScript.Switch(true);
             }
         }
@@ -111,7 +111,7 @@ public class LevelManager : MonoBehaviour {
         }
 
         if (buildings.Count > 0) {
-            var pylonRange = pylon.range;
+            var pylonRange = pylon.GetRange();
             var pylonPosition = go.transform.position;
             foreach (var building in buildings) {
                 var buildingPosition = building.transform.position;
@@ -229,7 +229,7 @@ public class LevelManager : MonoBehaviour {
                 var pylonPosition = pylon.transform.position;
                 var buildingPosition = go.transform.position;
                 var distance = Vector3.Distance(pylonPosition, buildingPosition);
-                if (distance < pylonScript.range) {
+                if (distance < pylonScript.GetRange()) {
                     go.GetComponent<PowerConsumer>().SetPower(true);
                 }
             }
