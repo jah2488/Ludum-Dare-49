@@ -2,9 +2,11 @@ using UnityEngine;
 using System.Collections;
 using MoreMountains.Feedbacks;
 
-public class PowerConsumer : MonoBehaviour {
-    [SerializeField] bool toggle;
+// This script can be placed on house game objects
+// It will consume power set in `powerRequired`
+// SetPower can be called (somehow) to know if there is enough power
 
+public class PowerConsumer : MonoBehaviour {
     [SerializeField] float powerRequired;
     [SerializeField] bool hasPower;
 
@@ -14,6 +16,9 @@ public class PowerConsumer : MonoBehaviour {
     [SerializeField] MeshRenderer _light;
 
     [SerializeField] MMFeedbacks _flickerFeedback;
+
+    [Header("Debug")]
+    [SerializeField] bool toggle;
 
     void Update() {
         if (toggle) {
@@ -29,6 +34,12 @@ public class PowerConsumer : MonoBehaviour {
 
     public float PowerRequired { get { return powerRequired; } }
 
+    public void SetPowerRequired(float power) {
+        powerRequired = power;
+    }
+
+    public bool HasPower { get { return hasPower; } }
+
     public void SetPower(bool hasPower) {
         if (hasPower) {
             StartCoroutine(TurnOnCoroutine());
@@ -37,8 +48,6 @@ public class PowerConsumer : MonoBehaviour {
         }
         this.hasPower = hasPower;
     }
-
-    public bool HasPower { get { return hasPower; } }
 
     IEnumerator TurnOnCoroutine() {
         _flickerFeedback.PlayFeedbacks();

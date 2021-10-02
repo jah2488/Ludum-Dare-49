@@ -2,14 +2,21 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
+// This is a helper class for power generators and distributors that
+// lights them up and dims them down
+
 public class PowerAnimator : MonoBehaviour {
-    [SerializeField] bool toggle;
     [SerializeField] bool isOn;
 
     [SerializeField] float waitTime;
     [SerializeField] Material onMaterial;
     [SerializeField] Material offMaterial;
     [SerializeField] List<MeshRenderer> lights;
+
+    [Header("Debug")]
+    [SerializeField] bool toggle;
+
+    bool animating = false;
 
     void Update() {
         if (toggle) {
@@ -28,17 +35,25 @@ public class PowerAnimator : MonoBehaviour {
         isOn = status;
     }
 
+    public bool IsAnimating() {
+        return animating;
+    }
+
     IEnumerator TurnOnCoroutine() {
+        animating = true;
         foreach (MeshRenderer light in lights) {
             light.material = onMaterial;
             yield return new WaitForSeconds(waitTime);
         }
+        animating = false;
     }
 
     IEnumerator TurnOffCoroutine() {
+        animating = true;
         for (int i = lights.Count - 1; i >= 0; i--) {
             lights[i].material = offMaterial;
             yield return new WaitForSeconds(waitTime);
         }
+        animating = false;
     }
 }

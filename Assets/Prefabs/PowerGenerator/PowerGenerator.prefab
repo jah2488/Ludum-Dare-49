@@ -256,10 +256,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   output: 10
-  range: 7
+  range: 5
   isOn: 0
-  toggle: 0
   lineRenderer: {fileID: 578638541}
+  toggle: 0
 --- !u!114 &5386873614499492542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,7 +272,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be47eb42ebc8ea04597adaded67d2dad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toggle: 0
   isOn: 0
   waitTime: 0.2
   onMaterial: {fileID: 2100000, guid: 8affe2c3422aa9c47a46b12b42cab499, type: 2}
@@ -281,6 +280,7 @@ MonoBehaviour:
   - {fileID: 10330206577762188}
   - {fileID: 8417489018103319983}
   - {fileID: 4745361715387585822}
+  toggle: 0
 --- !u!1001 &4867190922223862175
 PrefabInstance:
   m_ObjectHideFlags: 0
