@@ -10,7 +10,7 @@ using ModelShark;
 [RequireComponent(typeof(Hoverable))]
 public class PowerGenerator : MonoBehaviour {
     [SerializeField] float output;
-    [SerializeField] float range;
+    public float range;
     [SerializeField] bool isOn = false;
     [SerializeField] MMLineRendererCircle lineRenderer;
 
