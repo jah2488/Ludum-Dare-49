@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 1968855544}
   - component: {fileID: 1968855546}
   - component: {fileID: 7478846790700519273}
+  - component: {fileID: 8860642253964234232}
+  - component: {fileID: 2401693679852493762}
   m_Layer: 0
   m_Name: PowerDistributer
   m_TagString: Untagged
@@ -74,7 +76,7 @@ CapsuleCollider:
   m_Radius: 0.3
   m_Height: 5
   m_Direction: 1
-  m_Center: {x: 0, y: 3.25, z: 0}
+  m_Center: {x: 0, y: 1.75, z: 0}
 --- !u!114 &1968855546
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,6 +206,45 @@ MonoBehaviour:
   hitFxMode: 0
   hitFxFadeOutDuration: 0.25
   hitFxColor: {r: 1, g: 1, b: 1, a: 1}
+--- !u!114 &8860642253964234232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 990356656263634759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e97be6d2adc714746a9d218b9b67aa1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2401693679852493762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 990356656263634759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f99a9e0f405bff84884c4884261df263, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tooltipStyle: {fileID: 11486272, guid: ef24fdfb9beb41b4b961a71ab9697cf8, type: 3}
+  parameterizedTextFields:
+  - name: BodyText
+    placeholder: '%BodyText%'
+    value: 
+  dynamicImageFields: []
+  dynamicSectionFields: []
+  isRemotelyActivated: 0
+  backgroundTint: {r: 1, g: 1, b: 1, a: 1}
+  tipPosition: 0
+  minTextWidth: 100
+  maxTextWidth: 200
+  staysOpen: 0
+  neverRotate: 0
+  isBlocking: 0
 --- !u!1001 &1244212167578388206
 PrefabInstance:
   m_ObjectHideFlags: 0

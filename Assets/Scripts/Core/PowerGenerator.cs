@@ -1,11 +1,13 @@
 using UnityEngine;
 using MoreMountains.Tools;
+using ModelShark;
 
 // This script can be added on to power generators
 // The Output and Range can be set
 // This will alow allow you to power on / off the generator
 
 [RequireComponent(typeof(PowerAnimator))]
+[RequireComponent(typeof(Hoverable))]
 public class PowerGenerator : MonoBehaviour {
     [SerializeField] float output;
     [SerializeField] float range;
@@ -16,9 +18,13 @@ public class PowerGenerator : MonoBehaviour {
     [SerializeField] bool toggle;
 
     PowerAnimator powerAnimator;
+    Hoverable hoverable;
+    TooltipTrigger tooltipTrigger;
 
     void Start() {
         powerAnimator = GetComponent<PowerAnimator>();
+        tooltipTrigger = GetComponent<TooltipTrigger>();
+        SetTooltip();
         Switch(true);
         UpdateRange(range);
     }
@@ -51,5 +57,10 @@ public class PowerGenerator : MonoBehaviour {
         this.range = range;
         lineRenderer.HorizontalRadius = lineRenderer.VerticalRadius = range;
         lineRenderer.DrawCircle();
+    }
+
+    void SetTooltip() {
+        string text = "Output: " + output + "\nRange: " + range;
+        tooltipTrigger.SetText("BodyText", text);
     }
 }
