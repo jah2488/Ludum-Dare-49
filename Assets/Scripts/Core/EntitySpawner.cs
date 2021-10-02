@@ -45,7 +45,7 @@ public class EntitySpawner : MonoBehaviour {
         currentPreview = Instantiate(distributorPreview);
     }
 
-    public void SpawnEntity() {
+    void SpawnEntity() {
         GameObject entity = Instantiate(currentEntity);
         entity.transform.position = currentPreview.transform.position;
         GameObject.Destroy(currentPreview);
