@@ -165,13 +165,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c6bc6454a1cd854197a10eaa5a64502, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toggle: 0
   powerRequired: 0
   hasPower: 0
   onMaterial: {fileID: 2100000, guid: 4e2f0d568f91d0340addf415d51fee32, type: 2}
   offMaterial: {fileID: 2100000, guid: 25838b67682e4534fa2a9ad719cd7303, type: 2}
   _light: {fileID: 2053144454819374505}
   _flickerFeedback: {fileID: 730053654}
+  toggle: 0
 --- !u!1001 &3477281039971960905
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -197,7 +197,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8000824571899433647, guid: 93ae02ed1bd98664ebb0dac31d673898, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.9
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8000824571899433647, guid: 93ae02ed1bd98664ebb0dac31d673898, type: 3}
       propertyPath: m_LocalPosition.z
