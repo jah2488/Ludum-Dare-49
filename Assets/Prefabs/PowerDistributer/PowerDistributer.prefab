@@ -90,7 +90,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isOn: 0
-  range: 5
+  range: 50
   powerAnimator: {fileID: 141849904122604353}
   _tooltipTrigger: {fileID: 2401693679852493762}
 --- !u!114 &7478846790700519273
