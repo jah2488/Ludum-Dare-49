@@ -8,7 +8,6 @@ public class Transparent : MonoBehaviour {
 
     void Start() {
         MeshRenderer[] renderers = GetComponentsInChildren<MeshRenderer>();
-        Debug.Log(renderers.Length);
         foreach (MeshRenderer renderer in renderers) {
             Material material = renderer.material;
             Color color = new Color(material.color.r, material.color.g, material.color.b, value);

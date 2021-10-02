@@ -264,6 +264,8 @@ MonoBehaviour:
   isOn: 0
   lineRenderer: {fileID: 578638541}
   toggle: 0
+  powerAnimator: {fileID: 5386873614499492542}
+  tooltipTrigger: {fileID: 1906348432}
 --- !u!114 &5386873614499492542
 MonoBehaviour:
   m_ObjectHideFlags: 0

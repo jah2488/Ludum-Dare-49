@@ -26,6 +26,9 @@ public class LevelManager : MonoBehaviour {
     [SceneObjectsOnly]
     public GameObject spawnObject;
     [TabGroup("Spawn Settings")]
+    [SceneObjectsOnly]
+    public GameObject cameraContainer;
+    [TabGroup("Spawn Settings")]
     public WorldBounds spawnBounds;
     [TabGroup("Spawn Settings")]
     public int maxBuildings = 20;
@@ -74,47 +77,47 @@ public class LevelManager : MonoBehaviour {
         Gizmos.DrawWireCube(new Vector3(spawnBounds.x + spawnBounds.width / 2, 0, spawnBounds.z + spawnBounds.height / 2), new Vector3(spawnBounds.width, 1, spawnBounds.height));
         Gizmos.color = Color.green;
         Gizmos.DrawWireCube(new Vector3(
-            (spawnBounds.x + spawnBounds.width / 2) + spawnBuffer, 0, 
-            (spawnBounds.z + spawnBounds.height / 2) + spawnBuffer), 
-            new Vector3(spawnBounds.width - spawnBuffer/2, 1, spawnBounds.height - spawnBuffer/2));
-   }
+            (spawnBounds.x + spawnBounds.width / 2) + spawnBuffer, 0,
+            (spawnBounds.z + spawnBounds.height / 2) + spawnBuffer),
+            new Vector3(spawnBounds.width - spawnBuffer / 2, 1, spawnBounds.height - spawnBuffer / 2));
+    }
 
-   public void OnGeneratorSpawned(GameObject go) {
+    public void OnGeneratorSpawned(GameObject go) {
         generators.Add(go);
-   }
+    }
 
-   public void OnPylonSpawned(GameObject go) {
-       // get the pylon's position and range
-       // check if any buildings are within range
-       // if so, power on the building
-       var pylon = go.GetComponent<PowerDistributor>();
-       foreach (var g in generators) {
-           var gen = g.GetComponent<PowerGenerator>();
-           var genRange = gen.range;
-           var distance = Vector3.Distance(pylon.transform.position, gen.transform.position);
-           if (distance < genRange) {
-               pylon.Switch(true);
-           }
-       }
+    public void OnPylonSpawned(GameObject go) {
+        // get the pylon's position and range
+        // check if any buildings are within range
+        // if so, power on the building
+        var pylon = go.GetComponent<PowerDistributor>();
+        foreach (var g in generators) {
+            var gen = g.GetComponent<PowerGenerator>();
+            var genRange = gen.range;
+            var distance = Vector3.Distance(pylon.transform.position, gen.transform.position);
+            if (distance < genRange) {
+                pylon.Switch(true);
+            }
+        }
 
-       if (buildings.Count > 0) {
-           var pylonRange = pylon.range;
-           var pylonPosition = go.transform.position;
-           foreach (var building in buildings) {
-               var buildingPosition = building.transform.position;
-               var distance = Vector3.Distance(pylonPosition, buildingPosition);
-               if (distance <= pylonRange) {
-                   var buildingScript = building.GetComponent<PowerConsumer>();
-                   Debug.Log("Powering on building at " + buildingPosition);
-                   if (pylon.isOn) {
-                      buildingScript.SetPower(true);
-                   }
-               }
-           }
-       }
+        if (buildings.Count > 0) {
+            var pylonRange = pylon.range;
+            var pylonPosition = go.transform.position;
+            foreach (var building in buildings) {
+                var buildingPosition = building.transform.position;
+                var distance = Vector3.Distance(pylonPosition, buildingPosition);
+                if (distance <= pylonRange) {
+                    var buildingScript = building.GetComponent<PowerConsumer>();
+                    Debug.Log("Powering on building at " + buildingPosition);
+                    if (pylon.isOn) {
+                        buildingScript.SetPower(true);
+                    }
+                }
+            }
+        }
 
-       pylons.Add(go);
-   }
+        pylons.Add(go);
+    }
 
 
     void Awake() {
@@ -133,6 +136,9 @@ public class LevelManager : MonoBehaviour {
 
         if (spawnObject) {
             spawnObject.transform.position = new Vector3(spawnBounds.x + spawnBounds.width / 2, spawnObject.transform.position.y, spawnBounds.z + spawnBounds.height / 2);
+        }
+        if (cameraContainer) {
+            cameraContainer.transform.position = new Vector3(spawnBounds.x + spawnBounds.width / 2, cameraContainer.transform.position.y, spawnBounds.z + spawnBounds.height / 2);
         }
     }
 
@@ -207,7 +213,7 @@ public class LevelManager : MonoBehaviour {
 
         var go = Instantiate(buildingPrefab, new Vector3(x, 0, z), Quaternion.identity);
 
-        go.transform.rotation = Quaternion.Euler(0, (UnityEngine.Random.Range(0, 360) % 90) * 90, 0);
+        go.transform.rotation = Quaternion.Euler(0, Random.Range(0, 2) * 90, 0);
         buildings.Add(go);
     }
 

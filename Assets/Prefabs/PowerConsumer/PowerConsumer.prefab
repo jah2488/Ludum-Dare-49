@@ -176,6 +176,7 @@ MonoBehaviour:
   _light: {fileID: 2053144454819374505}
   _flickerFeedback: {fileID: 730053654}
   toggle: 0
+  _tooltipTrigger: {fileID: 6181073808913022800}
 --- !u!114 &3503393658668612561
 MonoBehaviour:
   m_ObjectHideFlags: 0
