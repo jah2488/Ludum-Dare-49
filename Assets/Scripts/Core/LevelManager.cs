@@ -12,14 +12,13 @@ public struct WorldBounds {
     public int height;
 }
 
-public class LevelManager : MonoBehaviour
-{
+public class LevelManager : MonoBehaviour {
     [TabGroup("Level Settings")]
     public int money = 0;
     [TabGroup("Level Settings")]
     public int happiness = 50;
     [TabGroup("Level Settings")]
-    public int score = 0 ;
+    public int score = 0;
     [TabGroup("Level Settings")]
     public int tick = 0;
 
@@ -57,7 +56,7 @@ public class LevelManager : MonoBehaviour
     private List<GameObject> generators;
     private List<GameObject> pylons;
 
-    
+
     [Button(ButtonSizes.Large, ButtonStyle.Box, Expanded = true)]
     public void SpawnGenerator(int x, int z) {
         var go = Instantiate(generatorPrefab, new Vector3(x, 0, z), Quaternion.identity);
@@ -138,13 +137,13 @@ public class LevelManager : MonoBehaviour
     }
 
     void Update() {
-       uiManager.UpdateUI(money, happiness, score, tick);
-       updatePowerUI();
+        uiManager.UpdateUI(money, happiness, score, tick);
+        updatePowerUI();
 
-       if (Time.time >= nextTick) {
-           nextTick = Mathf.FloorToInt(Time.time) + 1; tick += 1;
-           OnTick(tick, Time.deltaTime);
-       } 
+        if (Time.time >= nextTick) {
+            nextTick = Mathf.FloorToInt(Time.time) + 1; tick += 1;
+            OnTick(tick, Time.deltaTime);
+        }
     }
 
     void OnTick(int tick, float deltaTime) {

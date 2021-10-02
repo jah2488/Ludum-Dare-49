@@ -30,6 +30,7 @@ public class PowerDistributor : MonoBehaviour, IPointerDownHandler, IPointerUpHa
         if (GetPowerAnimator().IsAnimating()) { return false; }
         GetPowerAnimator().Switch(hasPower);
         isOn = hasPower;
+        SetTooltip();
         return true;
     }
 
