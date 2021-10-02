@@ -115,9 +115,9 @@ MonoBehaviour:
   BoundRenderer: {fileID: 2053144454819374505}
   Mode: 0
   PropertyName: _Tint
-  FlickerDuration: 0.2
-  FlickerOctave: 0.04
-  FlickerColor: {r: 1, g: 0.078431375, b: 0.078431375, a: 1}
+  FlickerDuration: 0.75
+  FlickerOctave: 0.2
+  FlickerColor: {r: 1.0745099, g: 0.98039216, b: 0.32156864, a: 1}
   MaterialIndexes: 
   UseMaterialPropertyBlocks: 0
 --- !u!1 &2388333362736623658
@@ -171,7 +171,7 @@ MonoBehaviour:
   onMaterial: {fileID: 2100000, guid: 4e2f0d568f91d0340addf415d51fee32, type: 2}
   offMaterial: {fileID: 2100000, guid: 25838b67682e4534fa2a9ad719cd7303, type: 2}
   _light: {fileID: 2053144454819374505}
-  _feedbacks: {fileID: 730053654}
+  _flickerFeedback: {fileID: 730053654}
 --- !u!1001 &3477281039971960905
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -197,7 +197,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8000824571899433647, guid: 93ae02ed1bd98664ebb0dac31d673898, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.5
+      value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 8000824571899433647, guid: 93ae02ed1bd98664ebb0dac31d673898, type: 3}
       propertyPath: m_LocalPosition.z
