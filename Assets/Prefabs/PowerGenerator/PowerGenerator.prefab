@@ -203,7 +203,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Axis: 1
-  NormalOffset: 0
+  NormalOffset: -1.5
   PositionsCount: 60
   HorizontalRadius: 5
   VerticalRadius: 5
