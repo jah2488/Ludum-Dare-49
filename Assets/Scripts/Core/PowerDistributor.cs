@@ -8,8 +8,8 @@ using ModelShark;
 [RequireComponent(typeof(CapsuleCollider))]
 [RequireComponent(typeof(PowerAnimator))]
 public class PowerDistributor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
-    [SerializeField] bool isOn = false;
-
+    public bool isOn = false;
+    public float range = 5f;
     PowerAnimator powerAnimator;
 
     TooltipTrigger _tooltipTrigger;
@@ -18,7 +18,6 @@ public class PowerDistributor : MonoBehaviour, IPointerDownHandler, IPointerUpHa
         powerAnimator = GetComponent<PowerAnimator>();
         _tooltipTrigger = GetComponent<TooltipTrigger>();
         SetTooltip();
-        Switch(true);
     }
 
     public void OnPointerDown(PointerEventData _) { }
@@ -28,10 +27,20 @@ public class PowerDistributor : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     }
 
     public bool Switch(bool hasPower) {
-        if (powerAnimator.IsAnimating()) { return false; }
-        powerAnimator.Switch(hasPower);
+        if (GetPowerAnimator().IsAnimating()) { return false; }
+        GetPowerAnimator().Switch(hasPower);
         isOn = hasPower;
         return true;
+    }
+
+    PowerAnimator GetPowerAnimator() {
+        if (powerAnimator) {
+            return powerAnimator;
+        } else {
+            var pa = GetComponent<PowerAnimator>();
+            powerAnimator = pa;
+            return GetComponent<PowerAnimator>();
+        }
     }
 
     void SetTooltip() {

@@ -74,7 +74,47 @@ public class LevelManager : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireCube(new Vector3(spawnBounds.x + spawnBounds.width / 2, 0, spawnBounds.z + spawnBounds.height / 2), new Vector3(spawnBounds.width, 1, spawnBounds.height));
         Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(new Vector3((spawnBounds.x + spawnBounds.width / 2) - spawnBuffer, 0, (spawnBounds.z + spawnBounds.height / 2) - spawnBuffer), new Vector3(spawnBounds.width + spawnBuffer, 1, spawnBounds.height + spawnBuffer));
+        Gizmos.DrawWireCube(new Vector3(
+            (spawnBounds.x + spawnBounds.width / 2) + spawnBuffer, 0, 
+            (spawnBounds.z + spawnBounds.height / 2) + spawnBuffer), 
+            new Vector3(spawnBounds.width - spawnBuffer/2, 1, spawnBounds.height - spawnBuffer/2));
+   }
+
+   public void OnGeneratorSpawned(GameObject go) {
+        generators.Add(go);
+   }
+
+   public void OnPylonSpawned(GameObject go) {
+       // get the pylon's position and range
+       // check if any buildings are within range
+       // if so, power on the building
+       var pylon = go.GetComponent<PowerDistributor>();
+       foreach (var g in generators) {
+           var gen = g.GetComponent<PowerGenerator>();
+           var genRange = gen.range;
+           var distance = Vector3.Distance(pylon.transform.position, gen.transform.position);
+           if (distance < genRange) {
+               pylon.Switch(true);
+           }
+       }
+
+       if (buildings.Count > 0) {
+           var pylonRange = pylon.range;
+           var pylonPosition = go.transform.position;
+           foreach (var building in buildings) {
+               var buildingPosition = building.transform.position;
+               var distance = Vector3.Distance(pylonPosition, buildingPosition);
+               if (distance <= pylonRange) {
+                   var buildingScript = building.GetComponent<PowerConsumer>();
+                   Debug.Log("Powering on building at " + buildingPosition);
+                   if (pylon.isOn) {
+                      buildingScript.SetPower(true);
+                   }
+               }
+           }
+       }
+
+       pylons.Add(go);
    }
 
 
@@ -93,7 +133,7 @@ public class LevelManager : MonoBehaviour
         Random.seed = seed;
 
         if (spawnObject) {
-            spawnObject.transform.position = new Vector3(spawnBounds.x + spawnBounds.width / 2, 0, spawnBounds.z + spawnBounds.height / 2);
+            spawnObject.transform.position = new Vector3(spawnBounds.x + spawnBounds.width / 2, spawnObject.transform.position.y, spawnBounds.z + spawnBounds.height / 2);
         }
     }
 
@@ -161,25 +201,26 @@ public class LevelManager : MonoBehaviour
             return;
         }
 
-        float x = MapValue(CurveWeighted(spawnLocationCurve), 0, 1, spawnBounds.x + spawnBuffer, spawnBounds.width - spawnBuffer);
-        float z = MapValue(CurveWeighted(spawnLocationCurve), 0, 1, spawnBounds.z + spawnBuffer, spawnBounds.height - spawnBuffer);
+        float x = Mathf.FloorToInt(MapValue(CurveWeighted(spawnLocationCurve), 0, 1, spawnBounds.x - spawnBuffer, spawnBounds.width - spawnBuffer));
+        float z = Mathf.FloorToInt(MapValue(CurveWeighted(spawnLocationCurve), 0, 1, spawnBounds.z - spawnBuffer, spawnBounds.height - spawnBuffer));
 
-        Debug.Log("X:" + x + " Z:" + z);
         validateCoordinates(ref x, ref z);
 
         var go = Instantiate(buildingPrefab, new Vector3(x, 0, z), Quaternion.identity);
 
+        go.transform.rotation = Quaternion.Euler(0, (UnityEngine.Random.Range(0, 360) % 90) * 90, 0);
         buildings.Add(go);
     }
 
     void validateCoordinates(ref float x, ref float z, int attempts = 0) {
-        if (attempts > 1000) {
+        if (attempts > 100) {
             return;
         }
-        if (Physics.CheckSphere(new Vector3(x, 0, z), spawnBuffer)) {
-            Debug.Log("Collision");
-            x = MapValue(CurveWeighted(spawnLocationCurve), 0, 1, spawnBounds.x - spawnBuffer, spawnBounds.width + spawnBuffer);
-            z = MapValue(CurveWeighted(spawnLocationCurve), 0, 1, spawnBounds.z - spawnBuffer, spawnBounds.height + spawnBuffer);
+        var bitMask = 1 << 3;
+        var layerMask = ~bitMask;
+        if (Physics.CheckSphere(new Vector3(x, 0, z), spawnBuffer, layerMask)) {
+            x = MapValue(CurveWeighted(spawnLocationCurve), 0, 1, spawnBounds.x - spawnBuffer, spawnBounds.width - spawnBuffer);
+            z = MapValue(CurveWeighted(spawnLocationCurve), 0, 1, spawnBounds.z - spawnBuffer, spawnBounds.height - spawnBuffer);
             validateCoordinates(ref x, ref z, attempts + 1);
         }
     }
