@@ -220,6 +220,8 @@ GameObject:
   - component: {fileID: 6258913230996584209}
   - component: {fileID: 680135784647738492}
   - component: {fileID: 5386873614499492542}
+  - component: {fileID: -8178876115241818266}
+  - component: {fileID: 3153317044941896924}
   m_Layer: 0
   m_Name: PowerGenerator
   m_TagString: Untagged
@@ -281,6 +283,31 @@ MonoBehaviour:
   - {fileID: 8417489018103319983}
   - {fileID: 4745361715387585822}
   toggle: 0
+--- !u!114 &-8178876115241818266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 55488285739000902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e97be6d2adc714746a9d218b9b67aa1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!65 &3153317044941896924
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 55488285739000902}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &4867190922223862175
 PrefabInstance:
   m_ObjectHideFlags: 0
