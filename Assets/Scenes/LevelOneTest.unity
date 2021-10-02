@@ -201,6 +201,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameSystemContainer
       objectReference: {fileID: 0}
+    - target: {fileID: 3090136705831619497, guid: c098c05cc608c17419433c5d9412919c, type: 3}
+      propertyPath: orthographic size
+      value: 22
+      objectReference: {fileID: 0}
     - target: {fileID: 3821986770788946484, guid: c098c05cc608c17419433c5d9412919c, type: 3}
       propertyPath: spawnObject
       value: 
@@ -252,6 +256,14 @@ PrefabInstance:
     - target: {fileID: 8035891546181869788, guid: c098c05cc608c17419433c5d9412919c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8112505795171717933, guid: c098c05cc608c17419433c5d9412919c, type: 3}
+      propertyPath: m_Lens.m_SensorSize.x
+      value: 1.8811212
+      objectReference: {fileID: 0}
+    - target: {fileID: 8112505795171717933, guid: c098c05cc608c17419433c5d9412919c, type: 3}
+      propertyPath: m_Lens.OrthographicSize
+      value: 22
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c098c05cc608c17419433c5d9412919c, type: 3}
