@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccaf538756242e449898dfbceaa84829, type: 3}
+  m_Name: LevelData
+  m_EditorClassIdentifier: 
+  money: 500
+  happiness: 20
+  winThreshold: 0
+  loseThreshold: 0
+  buildingSpawnPositions:
+  - {x: 20, y: 0, z: 20}
+  generatorSpawnPositions:
+  - {x: 100, y: 0, z: 100}
+  pylonSpawnRotations: []
+  canBuildGenerators: 0
+  canBuildPylons: 1
+  maxBuildings: 50
+  maxGenerators: 5
+  maxPylons: 10
