@@ -83,6 +83,16 @@ public class LevelManager : MonoBehaviour {
     }
 
     public void OnGeneratorSpawned(GameObject go) {
+        var gen = go.GetComponent<PowerGenerator>();
+        foreach(var pylon in pylons) {
+            var pylonScript = pylon.GetComponent<PowerDistributor>();
+            var pylonPosition = pylon.transform.position;
+            var generatorPosition = go.transform.position;
+            var distance = Vector3.Distance(pylonPosition, generatorPosition);
+            if(distance < gen.range) {
+                pylonScript.Switch(true);
+            }
+        }
         generators.Add(go);
     }
 
@@ -212,6 +222,18 @@ public class LevelManager : MonoBehaviour {
         validateCoordinates(ref x, ref z);
 
         var go = Instantiate(buildingPrefab, new Vector3(x, 0, z), Quaternion.identity);
+
+        foreach (var pylon in pylons) {
+            var pylonScript = pylon.GetComponent<PowerDistributor>();
+            if (pylonScript.isOn) {
+                var pylonPosition = pylon.transform.position;
+                var buildingPosition = go.transform.position;
+                var distance = Vector3.Distance(pylonPosition, buildingPosition);
+                if (distance < pylonScript.range) {
+                    go.GetComponent<PowerConsumer>().SetPower(true);
+                }
+            }
+        }
 
         go.transform.rotation = Quaternion.Euler(0, Random.Range(0, 2) * 90, 0);
         buildings.Add(go);
