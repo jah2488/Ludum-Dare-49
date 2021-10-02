@@ -17,13 +17,10 @@ public class PowerGenerator : MonoBehaviour {
     [Header("Debug")]
     [SerializeField] bool toggle;
 
-    PowerAnimator powerAnimator;
-    Hoverable hoverable;
-    TooltipTrigger tooltipTrigger;
+    [SerializeField] PowerAnimator powerAnimator;
+    [SerializeField] TooltipTrigger tooltipTrigger;
 
     void Start() {
-        powerAnimator = GetComponent<PowerAnimator>();
-        tooltipTrigger = GetComponent<TooltipTrigger>();
         SetTooltip();
         Switch(true);
         UpdateRange(range);

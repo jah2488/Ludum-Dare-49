@@ -140,9 +140,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 7783359579649838977}
-  minZoom: 0
-  maxZoom: 0
-  panSpeed: 0
+  minZoom: 5
+  maxZoom: 30
+  panSpeed: 1
 --- !u!1 &3903182770779760442
 GameObject:
   m_ObjectHideFlags: 0

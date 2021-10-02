@@ -10,13 +10,12 @@ using ModelShark;
 public class PowerDistributor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     public bool isOn = false;
     public float range = 5f;
-    PowerAnimator powerAnimator;
 
-    TooltipTrigger _tooltipTrigger;
+    [SerializeField] PowerAnimator powerAnimator;
+
+    [SerializeField] TooltipTrigger _tooltipTrigger;
 
     void Start() {
-        powerAnimator = GetComponent<PowerAnimator>();
-        _tooltipTrigger = GetComponent<TooltipTrigger>();
         SetTooltip();
     }
 
@@ -27,21 +26,11 @@ public class PowerDistributor : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     }
 
     public bool Switch(bool hasPower) {
-        if (GetPowerAnimator().IsAnimating()) { return false; }
-        GetPowerAnimator().Switch(hasPower);
+        if (powerAnimator.IsAnimating()) { return false; }
+        powerAnimator.Switch(hasPower);
         isOn = hasPower;
         SetTooltip();
         return true;
-    }
-
-    PowerAnimator GetPowerAnimator() {
-        if (powerAnimator) {
-            return powerAnimator;
-        } else {
-            var pa = GetComponent<PowerAnimator>();
-            powerAnimator = pa;
-            return GetComponent<PowerAnimator>();
-        }
     }
 
     void SetTooltip() {

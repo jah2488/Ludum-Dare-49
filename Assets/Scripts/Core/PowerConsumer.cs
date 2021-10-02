@@ -21,10 +21,9 @@ public class PowerConsumer : MonoBehaviour {
     [Header("Debug")]
     [SerializeField] bool toggle;
 
-    TooltipTrigger _tooltipTrigger;
+    [SerializeField] TooltipTrigger _tooltipTrigger;
 
     void Start() {
-        _tooltipTrigger = GetComponent<TooltipTrigger>();
         SetTooltip();
     }
 
