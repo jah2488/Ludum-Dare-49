@@ -1,26 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class Hoverable : MonoBehaviour
+public class Hoverable : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    // Start is called before the first frame update
-    void Start()
+    public void OnPointerEnter(PointerEventData eventData)
     {
-        
+        Debug.Log("Pointer entered");
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnPointerExit(PointerEventData eventData)
     {
-        
-    }
-
-    void OnMouseEnter() {
-        Debug.Log("Entered");
-    }
-
-    void OnMouseExit() {
-        Debug.Log("Exited");
+        Debug.Log("Pointer exited");
     }
 }
