@@ -55,9 +55,9 @@ public class LevelManager : MonoBehaviour {
     private int nextTick = 1;
     private UIManager uiManager;
 
-    private List<GameObject> buildings;
-    private List<GameObject> generators;
-    private List<GameObject> pylons;
+    public List<GameObject> buildings;
+    public List<GameObject> generators;
+    public List<GameObject> pylons;
 
 
     [Button(ButtonSizes.Large, ButtonStyle.Box, Expanded = true)]
@@ -90,23 +90,20 @@ public class LevelManager : MonoBehaviour {
             var generatorPosition = go.transform.position;
             var distance = Vector3.Distance(pylonPosition, generatorPosition);
             if (distance < gen.GetRange()) {
-                pylonScript.Switch(true);
+                pylonScript.AddPower(gen.GetOutput());
             }
         }
         generators.Add(go);
     }
 
     public void OnPylonSpawned(GameObject go) {
-        // get the pylon's position and range
-        // check if any buildings are within range
-        // if so, power on the building
         var pylon = go.GetComponent<PowerDistributor>();
         foreach (var g in generators) {
             var gen = g.GetComponent<PowerGenerator>();
             var genRange = gen.GetRange();
             var distance = Vector3.Distance(pylon.transform.position, gen.transform.position);
             if (distance < genRange) {
-                pylon.Switch(true);
+                pylon.AddPower(gen.GetOutput());
             }
         }
 
@@ -118,14 +115,14 @@ public class LevelManager : MonoBehaviour {
                 var distance = Vector3.Distance(pylonPosition, buildingPosition);
                 if (distance <= pylonRange) {
                     var buildingScript = building.GetComponent<PowerConsumer>();
-                    Debug.Log("Powering on building at " + buildingPosition);
                     if (pylon.isOn) {
-                        buildingScript.SetPower(true);
+                        buildingScript.AddPower(pylon.GetPowerSupply());
                     }
                 }
             }
         }
 
+        go.GetComponent<PowerDistributor>().SetLevelManager(this);
         pylons.Add(go);
     }
 
@@ -210,7 +207,7 @@ public class LevelManager : MonoBehaviour {
     }
 
     void spawnBuilding() {
-        int buildingType = UnityEngine.Random.Range(0, 3);
+        int buildingType = UnityEngine.Random.Range(0, 5);
 
         if (CurveWeighted(spawnFrequencyCurve) > 0.5f) {
             return;
@@ -230,9 +227,13 @@ public class LevelManager : MonoBehaviour {
                 var buildingPosition = go.transform.position;
                 var distance = Vector3.Distance(pylonPosition, buildingPosition);
                 if (distance < pylonScript.GetRange()) {
-                    go.GetComponent<PowerConsumer>().SetPower(true);
+                    go.GetComponent<PowerConsumer>().AddPower(pylonScript.GetPowerSupply());
                 }
             }
+        }
+
+        foreach(var r in go.GetComponentsInChildren<Renderer>()) {
+            r.material.color = new Color[]{Color.blue, Color.red, Color.green, Color.cyan, Color.gray}[buildingType];
         }
 
         go.transform.rotation = Quaternion.Euler(0, Random.Range(0, 2) * 90, 0);

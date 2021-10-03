@@ -21,7 +21,7 @@ MonoBehaviour:
     value: 0
   color:
     overrideState: 1
-    value: {r: 0.6509434, g: 0, b: 0, a: 1}
+    value: {r: 0.14150941, g: 0.11703451, b: 0.11703451, a: 1}
   center:
     overrideState: 1
     value: {x: 0.5, y: 0.5}
@@ -111,6 +111,7 @@ MonoBehaviour:
   - {fileID: 1066882153098024954}
   - {fileID: 869627924685644835}
   - {fileID: -315369216403806598}
+  - {fileID: 4465559225948189757}
 --- !u!114 &869627924685644835
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -126,19 +127,19 @@ MonoBehaviour:
   active: 1
   enabled:
     overrideState: 1
-    value: 1
+    value: 0
   focusDistance:
     overrideState: 1
-    value: 0.89
+    value: 5.93
   aperture:
     overrideState: 1
-    value: 5.6
+    value: 25.3
   focalLength:
     overrideState: 1
-    value: 30.3
+    value: 1
   kernelSize:
     overrideState: 1
-    value: 1
+    value: 0
 --- !u!114 &1066882153098024954
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1450,6 +1451,32 @@ MonoBehaviour:
       - 0.5
       - 0.5
       - 0.5
+--- !u!114 &4465559225948189757
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6050e2d5de785ce4d931e4dbdbf2d755, type: 3}
+  m_Name: ChromaticAberration
+  m_EditorClassIdentifier: 
+  active: 0
+  enabled:
+    overrideState: 1
+    value: 1
+  spectralLut:
+    overrideState: 1
+    value: {fileID: 0}
+    defaultState: 1
+  intensity:
+    overrideState: 1
+    value: 0
+  fastMode:
+    overrideState: 1
+    value: 1
 --- !u!114 &8727491680457273399
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1468,19 +1495,19 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 2
+    value: 3.66
   threshold:
     overrideState: 1
-    value: 1
+    value: 1.64
   softKnee:
     overrideState: 1
-    value: 0.5
+    value: 0.249
   clamp:
     overrideState: 1
     value: 65472
   diffusion:
     overrideState: 1
-    value: 7
+    value: 6.55
   anamorphicRatio:
     overrideState: 1
     value: 0
@@ -1489,7 +1516,7 @@ MonoBehaviour:
     value: {r: 1, g: 1, b: 1, a: 1}
   fastMode:
     overrideState: 1
-    value: 0
+    value: 1
   dirtTexture:
     overrideState: 1
     value: {fileID: 0}

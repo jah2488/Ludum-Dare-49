@@ -27,10 +27,23 @@ public class EntitySpawner : MonoBehaviour {
         Ray castPoint = Camera.main.ScreenPointToRay(mouse);
         RaycastHit hit;
         if (Physics.Raycast(castPoint, out hit, Mathf.Infinity)) {
+            Debug.DrawLine (castPoint.origin, hit.point, Color.red);
             currentPreview.transform.position = new Vector3(hit.point.x, currentPreview.transform.position.y, hit.point.z);
-        }
-        if (Input.GetMouseButtonDown(0)) {
-            SpawnEntity();
+
+            if (hit.point.y > 0.6f || hit.collider.gameObject.tag == "NoSpawn") {
+                var renderers = currentPreview.gameObject.GetComponentsInChildren<Renderer>();
+                foreach(var r in renderers) {
+                    r.material.color = Color.red;
+                }
+            } else {
+                var renderers = currentPreview.gameObject.GetComponentsInChildren<Renderer>();
+                foreach(var r in renderers) {
+                    r.material.color = Color.white;
+                }
+                if (Input.GetMouseButtonDown(0)) {
+                    SpawnEntity();
+                }
+            }
         }
     }
 
