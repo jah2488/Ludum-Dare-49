@@ -9,6 +9,7 @@ using ModelShark;
 
 public class PowerConsumer : MonoBehaviour {
     [SerializeField] float powerRequired;
+    [SerializeField] float powerSupplied;
     [SerializeField] bool hasPower;
 
     [SerializeField] Material onMaterial;
@@ -49,15 +50,33 @@ public class PowerConsumer : MonoBehaviour {
         powerRequired = power;
     }
 
+    public void AddPower(float power) {
+        powerSupplied += power;
+        CheckIsPowered();
+    }
+
+    public void RemovePower(float power) {
+        powerSupplied -= power;
+        CheckIsPowered();
+    }
+
     public bool HasPower { get { return hasPower; } }
 
-    public void SetPower(bool hasPower) {
+    private void SetPower(bool hasPower) {
         if (hasPower) {
             StartCoroutine(TurnOnCoroutine());
         } else {
             StartCoroutine(TurnOffCoroutine());
         }
         this.hasPower = hasPower;
+    }
+
+    void CheckIsPowered() {
+        if (powerSupplied >= powerRequired) {
+            SetPower(true);
+        } else {
+            SetPower(false);
+        }
     }
 
     IEnumerator TurnOnCoroutine() {
