@@ -97,6 +97,8 @@ MonoBehaviour:
   powerAnimator: {fileID: 141849904122604353}
   _tooltipTrigger: {fileID: 2401693679852493762}
   powerRange: {fileID: 1816812131573040807}
+  powerSupply: 20
+  powerCapcity: 20
 --- !u!114 &7478846790700519273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -264,7 +266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85a6c8c3c1a76b643bbacc82a44f6739, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 30
+  range: 20
   lineRenderer: {fileID: 6249937521529948069}
 --- !u!1 &2376687156930218607
 GameObject:

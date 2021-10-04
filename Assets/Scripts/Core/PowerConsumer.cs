@@ -24,6 +24,8 @@ public class PowerConsumer : MonoBehaviour {
 
     [SerializeField] TooltipTrigger _tooltipTrigger;
 
+    private LevelManager LevelManager;
+
     void Start() {
         SetTooltip();
     }
@@ -38,6 +40,10 @@ public class PowerConsumer : MonoBehaviour {
             }
             toggle = false;
         }
+    }
+
+    public void SetLevelManager(LevelManager levelManager) {
+        LevelManager = levelManager;
     }
 
     public bool ConnectedToPower() {
@@ -60,6 +66,11 @@ public class PowerConsumer : MonoBehaviour {
         CheckIsPowered();
     }
 
+    public void Explode() {
+        //TODO: Add Explosion Sound and Animation and Prefab
+        SetPower(false);
+    }
+
     public bool HasPower { get { return hasPower; } }
 
     private void SetPower(bool hasPower) {
@@ -69,6 +80,7 @@ public class PowerConsumer : MonoBehaviour {
             StartCoroutine(TurnOffCoroutine());
         }
         this.hasPower = hasPower;
+        LevelManager.UpdateGameUI();
     }
 
     void CheckIsPowered() {
