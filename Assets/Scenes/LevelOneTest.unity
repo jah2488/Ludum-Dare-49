@@ -144,7 +144,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3090136705831619497, guid: c098c05cc608c17419433c5d9412919c, type: 3}
       propertyPath: orthographic size
-      value: 30
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3629698049564364133, guid: c098c05cc608c17419433c5d9412919c, type: 3}
       propertyPath: m_AnchorMax.x
@@ -156,11 +156,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3821986770788946484, guid: c098c05cc608c17419433c5d9412919c, type: 3}
       propertyPath: seed
-      value: 420
+      value: 69
       objectReference: {fileID: 0}
     - target: {fileID: 3821986770788946484, guid: c098c05cc608c17419433c5d9412919c, type: 3}
       propertyPath: spawnRate
-      value: 8
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3821986770788946484, guid: c098c05cc608c17419433c5d9412919c, type: 3}
       propertyPath: spawnObject
@@ -228,11 +228,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8112505795171717933, guid: c098c05cc608c17419433c5d9412919c, type: 3}
       propertyPath: m_Lens.m_SensorSize.x
-      value: 1.9620296
+      value: 1.8303092
       objectReference: {fileID: 0}
     - target: {fileID: 8112505795171717933, guid: c098c05cc608c17419433c5d9412919c, type: 3}
       propertyPath: m_Lens.OrthographicSize
-      value: 30
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c098c05cc608c17419433c5d9412919c, type: 3}

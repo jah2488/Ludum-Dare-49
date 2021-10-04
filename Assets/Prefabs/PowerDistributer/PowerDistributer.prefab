@@ -545,6 +545,8 @@ MonoBehaviour:
   powerAnimator: {fileID: 141849904122604353}
   _tooltipTrigger: {fileID: 2401693679852493762}
   powerRange: {fileID: 1816812131573040807}
+  _breakFeedback: {fileID: 2174595234508472828}
+  _repairFeedback: {fileID: 6772723502339952420}
   powerSupply: 20
   powerCapcity: 20
 --- !u!114 &7478846790700519273

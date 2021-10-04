@@ -135,6 +135,16 @@ public class LevelManager : MonoBehaviour {
         money -= pylon.GetCost();
     }
 
+    public void RepairPylon(PowerDistributor pd) {
+        GameUIManager.i.RemoveMoney(pd.GetRepairCost());
+        money -= pd.GetRepairCost();
+    }
+
+    public void RepairGenerator(PowerGenerator pd) {
+        GameUIManager.i.RemoveMoney(pd.GetRepairCost());
+        money -= pd.GetRepairCost();
+    }
+
 
    public void UpdateGameUI() {
         GameUIManager.i.SetPower(getPowerGenerated(), getPowerDraw());
@@ -215,22 +225,23 @@ public class LevelManager : MonoBehaviour {
             Debug.Log("Still Over producing");
             if (Random.value > 0.5f) {
                 Debug.Log("go boom");
-                if (getPowerGenerated() > getPowerDraw() * 1.4f) {
-                    int randomIndex = Random.Range(0, generators.Count - 1);
+                if (getPowerGenerated() > getPowerDraw() * 1.3f) {
+                    var gens = generators.FindAll(x => x.GetComponent<PowerGenerator>().GetOutput() > 0);
+                    int randomIndex = Random.Range(0, gens.Count);
                     var go = generators[randomIndex];
                     go.GetComponent<PowerGenerator>().Explode();
                 }
-                explosionStarted = false;
-                yield break;
             }
+            explosionStarted = false;
+            yield break;
         }
     }
 
     void CheckForOverProduction() {
-        if (generators.Count < 2) { return; }
+        if (generators.FindAll(x => x.GetComponent<PowerGenerator>().GetOutput() > 0).Count < 2) { return; }
         if (getPowerGenerated() > getPowerDraw() * 1.3f && !explosionStarted) {
             explosionStarted = true;
-            StartCoroutine(StartExplosionTimer(2f));
+            StartCoroutine(StartExplosionTimer(4f));
             Debug.Log("Over production");
         }
     }
@@ -269,11 +280,13 @@ public class LevelManager : MonoBehaviour {
         var unPoweredBuildingsCount = buildings.Count;
         happiness += buildings.Count * 2;
         happiness -= unPoweredBuildingsCount;
-        happiness -= money * -1 / 100;
         Debug.Log("Happiness: " + happiness);
         Debug.Log("Happiness++ " + buildings.Count);
         Debug.Log("Happiness-- " + unPoweredBuildingsCount);
-        Debug.Log("Happiness-- " + money * -1 / 100);
+        if (money < 0) {
+            happiness -= money * -1 / 100;
+            Debug.Log("Happiness-- " + money * -1 / 100);
+        }
         if (happiness >= 100) {
             happiness = 100;
         }

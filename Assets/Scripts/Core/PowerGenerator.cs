@@ -1,5 +1,7 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using MoreMountains.Tools;
+using MoreMountains.Feedbacks;
 using ModelShark;
 
 // This script can be added on to power generators
@@ -8,7 +10,7 @@ using ModelShark;
 
 [RequireComponent(typeof(PowerAnimator))]
 [RequireComponent(typeof(Hoverable))]
-public class PowerGenerator : MonoBehaviour {
+public class PowerGenerator : MonoBehaviour, IPointerUpHandler {
     [SerializeField] float output;
     // public float range;
     [SerializeField] bool isOn = false;
@@ -17,10 +19,15 @@ public class PowerGenerator : MonoBehaviour {
     [Header("Debug")]
     [SerializeField] bool toggle;
 
+    [SerializeField] MMFeedbacks _breakFeedback;
+    [SerializeField] MMFeedbacks _repairFeedback;
     [SerializeField] PowerAnimator powerAnimator;
     [SerializeField] TooltipTrigger tooltipTrigger;
     [SerializeField] PowerRange powerRange;
 
+    private LevelManager LevelManager;
+    private bool hasExploaded = false;
+    private int repairAttempts = 1;
 
     void Start() {
         SetTooltip();
@@ -39,7 +46,17 @@ public class PowerGenerator : MonoBehaviour {
         return 100;
     }
 
+    public int GetRepairCost() {
+        return (GetCost() / 2) * repairAttempts / 4;
+    }
+
+    public void OnPointerUp(PointerEventData _) {
+        Switch(!isOn);
+    }
+
     public void Explode() {
+        _breakFeedback.PlayFeedbacks();
+        hasExploaded = true;
         Switch(false);
     }
 
@@ -50,8 +67,15 @@ public class PowerGenerator : MonoBehaviour {
     // Returns false if the animation is still underway
     public bool Switch(bool hasPower) {
         if (powerAnimator.IsAnimating()) { return false; }
+        if (hasExploaded && hasPower) {
+            _repairFeedback.PlayFeedbacks();
+            hasExploaded = false;
+            LevelManager.RepairGenerator(this);
+            repairAttempts += 1;
+        }
         powerAnimator.Switch(hasPower);
         isOn = hasPower;
+        SetTooltip();
         return true;
     }
 
@@ -64,7 +88,14 @@ public class PowerGenerator : MonoBehaviour {
     }
 
     void SetTooltip() {
-        string text = "Output: " + output + "\nRange: " + GetRange();
+        string text = "Output: " + GetOutput() + "\nRange: " + GetRange();
+        if (hasExploaded) {
+            text = "...>\n<<!-EXPLOSION_DETECTED->>\n" + GetRepairCost() + "Credits\n##REPAIR@NULL;";
+        }
         tooltipTrigger.SetText("BodyText", text);
+    }
+
+    public void SetLevelManager(LevelManager levelManager) {
+        LevelManager = levelManager;
     }
 }

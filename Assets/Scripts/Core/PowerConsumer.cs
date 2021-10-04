@@ -66,11 +66,6 @@ public class PowerConsumer : MonoBehaviour {
         CheckIsPowered();
     }
 
-    public void Explode() {
-        //TODO: Add Explosion Sound and Animation and Prefab
-        SetPower(false);
-    }
-
     public bool HasPower { get { return hasPower; } }
 
     private void SetPower(bool hasPower) {
@@ -105,6 +100,7 @@ public class PowerConsumer : MonoBehaviour {
 
     void SetTooltip() {
         string text = "Demand: " + powerRequired;
+        text += "\nSupplied: " + powerSupplied;
         _tooltipTrigger.SetText("BodyText", text);
     }
 }
