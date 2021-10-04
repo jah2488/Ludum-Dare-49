@@ -1171,8 +1171,8 @@ MonoBehaviour:
   TargetGameObject: {fileID: 8921533729344260654}
   SetStateOnInit: 0
   StateOnInit: 1
-  SetStateOnPlay: 0
-  StateOnPlay: 1
+  SetStateOnPlay: 1
+  StateOnPlay: 0
   SetStateOnStop: 0
   StateOnStop: 1
   SetStateOnReset: 0
