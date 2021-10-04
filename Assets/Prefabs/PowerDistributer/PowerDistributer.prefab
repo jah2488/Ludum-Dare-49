@@ -100,6 +100,8 @@ MonoBehaviour:
   powerAnimator: {fileID: 141849904122604353}
   _tooltipTrigger: {fileID: 2401693679852493762}
   powerRange: {fileID: 1816812131573040807}
+  _breakFeedback: {fileID: 2174595234508472828}
+  _repairFeedback: {fileID: 6772723502339952420}
   powerSupply: 20
   powerCapcity: 20
 --- !u!114 &7478846790700519273
@@ -213,7 +215,7 @@ MonoBehaviour:
   seeThroughBorderColor: {r: 0, g: 0, b: 0, a: 1}
   seeThroughBorderWidth: 0.45
   seeThroughNonOverlap: 0
-  rmsCount: 10
+  rmsCount: 9
   hitFxInitialIntensity: 1
   hitFxMode: 0
   hitFxFadeOutDuration: 0.25

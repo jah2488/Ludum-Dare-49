@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using ModelShark;
+using MoreMountains.Feedbacks;
 using HighlightPlus;
 
 // This is a script that can be attached to pylons
@@ -16,6 +17,9 @@ public class PowerDistributor : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     [SerializeField] TooltipTrigger _tooltipTrigger;
 
     [SerializeField] PowerRange powerRange;
+
+    [SerializeField] MMFeedbacks _breakFeedback;
+    [SerializeField] MMFeedbacks _repairFeedback;
 
     [SerializeField] float powerSupply = 20f;
     //Not Used... Yet
@@ -149,6 +153,7 @@ public class PowerDistributor : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
     public void Overload() {
         //Replace with Damaged Pylon?
+        _breakFeedback.PlayFeedbacks();
         Switch(false);
     }
 }

@@ -1,5 +1,6 @@
 using UnityEngine;
 using MoreMountains.Tools;
+using MoreMountains.Feedbacks;
 using ModelShark;
 
 // This script can be added on to power generators
@@ -17,6 +18,8 @@ public class PowerGenerator : MonoBehaviour {
     [Header("Debug")]
     [SerializeField] bool toggle;
 
+    [SerializeField] MMFeedbacks _breakFeedback;
+    [SerializeField] MMFeedbacks _repairFeedback;
     [SerializeField] PowerAnimator powerAnimator;
     [SerializeField] TooltipTrigger tooltipTrigger;
     [SerializeField] PowerRange powerRange;
@@ -40,6 +43,8 @@ public class PowerGenerator : MonoBehaviour {
     }
 
     public void Explode() {
+        Debug.Log("go - boom");
+        _breakFeedback.PlayFeedbacks();
         Switch(false);
     }
 
@@ -52,6 +57,7 @@ public class PowerGenerator : MonoBehaviour {
         if (powerAnimator.IsAnimating()) { return false; }
         powerAnimator.Switch(hasPower);
         isOn = hasPower;
+        SetTooltip();
         return true;
     }
 
@@ -64,7 +70,7 @@ public class PowerGenerator : MonoBehaviour {
     }
 
     void SetTooltip() {
-        string text = "Output: " + output + "\nRange: " + GetRange();
+        string text = "Output: " + GetOutput() + "\nRange: " + GetRange();
         tooltipTrigger.SetText("BodyText", text);
     }
 }
