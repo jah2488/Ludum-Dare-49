@@ -170,6 +170,9 @@ public class LevelManager : MonoBehaviour {
         if (cameraContainer) {
             cameraContainer.transform.position = new Vector3(spawnBounds.x + spawnBounds.width / 2, cameraContainer.transform.position.y, spawnBounds.z + spawnBounds.height / 2);
         }
+
+        GameUIManager.i.SetPower(0, 0);
+        GameUIManager.i.RemoveMoney(100);
     }
 
     void Update() {
@@ -276,21 +279,30 @@ public class LevelManager : MonoBehaviour {
     }
 
     void updateHappiness() {
+        var WINGAME_LEVEL = 3;
+        var LOSEGAME_LEVEL = 4;
         var unPoweredBuildings = buildings.FindAll(x => x.GetComponent<PowerConsumer>().ConnectedToPower() == false).Count;
         var unPoweredBuildingsCount = buildings.Count;
-        happiness += buildings.Count * 2;
+        happiness += (buildings.Count - unPoweredBuildingsCount) * 2;
         happiness -= unPoweredBuildingsCount;
-        Debug.Log("Happiness: " + happiness);
-        Debug.Log("Happiness++ " + buildings.Count);
-        Debug.Log("Happiness-- " + unPoweredBuildingsCount);
         if (money < 0) {
             happiness -= money * -1 / 100;
             Debug.Log("Happiness-- " + money * -1 / 100);
         }
+
         if (happiness >= 100) {
             happiness = 100;
         }
-        GameUIManager.i.SetHappiness(happiness, happiness < 30);
+
+        GameUIManager.i.SetHappiness(happiness, happiness < 51);
+
+        if (happiness >= 100) {
+            GameManager.i.LoadLevel(WINGAME_LEVEL);
+        }
+
+        if (happiness < 0) {
+            GameManager.i.LoadLevel(LOSEGAME_LEVEL);
+        }
     }
 
     void updateMoney() {

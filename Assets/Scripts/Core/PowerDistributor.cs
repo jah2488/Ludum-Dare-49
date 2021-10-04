@@ -31,7 +31,7 @@ public class PowerDistributor : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     private int repairAttempts = 1;
 
     public int GetCost() {
-        return 50;
+        return 20;
     }
 
     public int GetRepairCost() {
@@ -86,6 +86,7 @@ public class PowerDistributor : MonoBehaviour, IPointerDownHandler, IPointerUpHa
         }
         if (isOverloaded) {
             text = "...>\n<<!-Overloaded->>\n" + GetRepairCost() + "Credits\n##REPAIR@NULL;";
+            text = "\n>>> cat 'consumption-and-production-must-be-kept-in-balance_v2_final.txt";
         }
         _tooltipTrigger.SetText("BodyText", text);
     }

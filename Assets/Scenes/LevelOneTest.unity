@@ -154,21 +154,49 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3821986769985888954, guid: c098c05cc608c17419433c5d9412919c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3821986770788946484, guid: c098c05cc608c17419433c5d9412919c, type: 3}
       propertyPath: seed
       value: 69
       objectReference: {fileID: 0}
     - target: {fileID: 3821986770788946484, guid: c098c05cc608c17419433c5d9412919c, type: 3}
       propertyPath: spawnRate
-      value: 2
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821986770788946484, guid: c098c05cc608c17419433c5d9412919c, type: 3}
+      propertyPath: spawnBuffer
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3821986770788946484, guid: c098c05cc608c17419433c5d9412919c, type: 3}
       propertyPath: spawnObject
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3821986770788946484, guid: c098c05cc608c17419433c5d9412919c, type: 3}
+      propertyPath: spawnOffset
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821986770788946484, guid: c098c05cc608c17419433c5d9412919c, type: 3}
       propertyPath: maxBuildings
-      value: 30
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821986770788946484, guid: c098c05cc608c17419433c5d9412919c, type: 3}
+      propertyPath: spawnBounds.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821986770788946484, guid: c098c05cc608c17419433c5d9412919c, type: 3}
+      propertyPath: spawnBounds.z
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821986770788946484, guid: c098c05cc608c17419433c5d9412919c, type: 3}
+      propertyPath: spawnBounds.width
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3821986770788946484, guid: c098c05cc608c17419433c5d9412919c, type: 3}
+      propertyPath: spawnBounds.height
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 6230002627382137169, guid: c098c05cc608c17419433c5d9412919c, type: 3}
       propertyPath: m_AnchorMax.x
@@ -177,6 +205,10 @@ PrefabInstance:
     - target: {fileID: 6230002627382137169, guid: c098c05cc608c17419433c5d9412919c, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7824907995780115215, guid: c098c05cc608c17419433c5d9412919c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7824907996825996499, guid: c098c05cc608c17419433c5d9412919c, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -228,11 +260,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8112505795171717933, guid: c098c05cc608c17419433c5d9412919c, type: 3}
       propertyPath: m_Lens.m_SensorSize.x
-      value: 1.8303092
+      value: 1.8306452
       objectReference: {fileID: 0}
     - target: {fileID: 8112505795171717933, guid: c098c05cc608c17419433c5d9412919c, type: 3}
       propertyPath: m_Lens.OrthographicSize
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8321051117284610345, guid: c098c05cc608c17419433c5d9412919c, type: 3}
+      propertyPath: m_text
+      value: Stability
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c098c05cc608c17419433c5d9412919c, type: 3}

@@ -25,6 +25,7 @@ public class PowerConsumer : MonoBehaviour {
     [SerializeField] TooltipTrigger _tooltipTrigger;
 
     private LevelManager LevelManager;
+    private int poweredCycles = 0;
 
     void Start() {
         SetTooltip();
@@ -75,6 +76,7 @@ public class PowerConsumer : MonoBehaviour {
             StartCoroutine(TurnOffCoroutine());
         }
         this.hasPower = hasPower;
+        poweredCycles++;
         LevelManager.UpdateGameUI();
     }
 
@@ -101,6 +103,29 @@ public class PowerConsumer : MonoBehaviour {
     void SetTooltip() {
         string text = "Demand: " + powerRequired;
         text += "\nSupplied: " + powerSupplied;
+        text += "\nStability: " + (hasPower ? "+2" : "-1");
+        text += "\n------";
+        if (hasPower && poweredCycles < 5) {
+            text += "'Finally power!'";
+        } else {
+            text += "\n'HELP! We need some power over here!'";
+            text += "\n'I hope there is a pylon and a generator on the way here!'";
+        }
+
+        if (!hasPower && poweredCycles > 2) {
+            text += "\n'I'm not sure if we have enough power here...'";
+            text += "\n'Maybe we should look for a pylon that isn't overloaded?'";
+            text += "\n'Maybe we should look for a generator that isn't on fire!?'";
+        }
+
+        if (poweredCycles > 5) {
+            text += "\nWhat are they doing?";
+            text += "\nI don't think they know how to do this at all!";
+        }
+
+        if (LevelManager && LevelManager.money < 0) {
+            text += "\n'I really don't want us going in to debt over this project!'";
+        }
         _tooltipTrigger.SetText("BodyText", text);
     }
 }

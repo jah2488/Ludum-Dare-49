@@ -43,7 +43,7 @@ public class PowerGenerator : MonoBehaviour, IPointerUpHandler {
     }
 
     public int GetCost() {
-        return 100;
+        return 50;
     }
 
     public int GetRepairCost() {
