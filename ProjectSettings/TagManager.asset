@@ -8,6 +8,7 @@ TagManager:
   - Distributor
   - Generator
   - NoSpawn
+  - Fader
   layers:
   - Default
   - TransparentFX
@@ -40,7 +41,7 @@ TagManager:
   - 
   - 
   - 
-  - 
+  - Fader
   m_SortingLayers:
   - name: Default
     uniqueID: 0
