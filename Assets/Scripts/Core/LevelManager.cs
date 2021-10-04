@@ -135,6 +135,16 @@ public class LevelManager : MonoBehaviour {
         money -= pylon.GetCost();
     }
 
+    public void RepairPylon(PowerDistributor pd) {
+        GameUIManager.i.RemoveMoney(pd.GetRepairCost());
+        money -= pd.GetRepairCost();
+    }
+
+    public void RepairGenerator(PowerGenerator pd) {
+        GameUIManager.i.RemoveMoney(pd.GetRepairCost());
+        money -= pd.GetRepairCost();
+    }
+
 
    public void UpdateGameUI() {
         GameUIManager.i.SetPower(getPowerGenerated(), getPowerDraw());

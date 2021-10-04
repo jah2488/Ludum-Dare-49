@@ -27,9 +27,15 @@ public class PowerDistributor : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
     private LevelManager LevelManager;
     private bool hovering = false;
+    private bool isOverloaded = false;
+    private int repairAttempts = 1;
 
     public int GetCost() {
         return 50;
+    }
+
+    public int GetRepairCost() {
+        return (GetCost() / 2) * repairAttempts / 4;
     }
 
     void Start() {
@@ -60,6 +66,12 @@ public class PowerDistributor : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
     private bool Switch(bool hasPower) {
         if (powerAnimator.IsAnimating()) { return false; }
+        if (isOverloaded && hasPower) {
+            _repairFeedback.PlayFeedbacks();
+            isOverloaded = false;
+            LevelManager.RepairPylon(this);
+            repairAttempts += 1;
+        }
         powerAnimator.Switch(hasPower);
         isOn = hasPower;
         SetTooltip();
@@ -70,7 +82,10 @@ public class PowerDistributor : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     void SetTooltip() {
         string text = "Status: " + (isOn ? "On" : "Off");
         if (LevelManager) {
-            text += "\n Powering " + TotalDraw() + " units";
+            text += "\nPowering " + TotalDraw() + " units";
+        }
+        if (isOverloaded) {
+            text = "...>\n<<!-Overloaded->>\n" + GetRepairCost() + "Credits\n##REPAIR@NULL;";
         }
         _tooltipTrigger.SetText("BodyText", text);
     }
@@ -154,6 +169,7 @@ public class PowerDistributor : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     public void Overload() {
         //Replace with Damaged Pylon?
         _breakFeedback.PlayFeedbacks();
+        isOverloaded = true;
         Switch(false);
     }
 }
