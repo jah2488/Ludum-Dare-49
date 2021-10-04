@@ -23,10 +23,18 @@ public class GameManager : MonoBehaviour {
         LoadLevel(currentLevel);
     }
 
+    public void Quit() {
+        Application.Quit();
+    }
+
     public void LoadLevel(int i) {
         currentLevel = i;
         FadeIn();
         StartCoroutine(LoadScene(1));
+    }
+
+    public void MainMenu() {
+        SceneManager.LoadScene(0);
     }
 
     IEnumerator LoadScene(int id, float wait = 1f) {

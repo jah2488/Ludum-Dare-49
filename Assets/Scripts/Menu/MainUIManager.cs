@@ -12,4 +12,8 @@ public class MainUIManager : MonoBehaviour {
     public void StartNewGamme() {
         GameManager.i.StartNewGame();
     }
+
+    public void Quit() {
+        GameManager.i.Quit();
+    }
 }

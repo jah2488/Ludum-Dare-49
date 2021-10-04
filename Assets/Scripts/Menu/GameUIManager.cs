@@ -12,6 +12,41 @@ public class GameUIManager : MonoBehaviour {
         if (i == null) { i = this; } else { Destroy(gameObject); }
     }
 
+    [SerializeField] GameObject menu;
+    [SerializeField] GameObject gameOver;
+    [SerializeField] TextMeshProUGUI winText;
+    [SerializeField] EntitySpawner entitySpawner;
+
+    void Update() {
+        if (Input.GetKeyUp(KeyCode.Escape)) {
+            menu.gameObject.SetActive(true);
+            Time.timeScale = 0;
+        }
+    }
+
+    public void MainMenu() {
+        Time.timeScale = 1;
+        GameManager.i.MainMenu();
+    }
+
+    public void Cancel() {
+        menu.gameObject.SetActive(false);
+        Time.timeScale = 1;
+    }
+
+    public void GameOver(bool win = true) {
+        Time.timeScale = 0;
+        if (win) { winText.text = "You Win!"; } else { winText.text = "Sorry, You Lose :("; }
+        gameOver.gameObject.SetActive(true);
+    }
+
+    public void SpawnPylon() {
+        entitySpawner.SpawnDistributorPreview();
+    }
+
+    public void SpawnGenerator() {
+        entitySpawner.ShowGeneratorPreview();
+    }
 
     // Money UI
     [TabGroup("Money Objects")]
@@ -74,11 +109,11 @@ public class GameUIManager : MonoBehaviour {
         powerGenerationText.text = production.ToString();
         powerConsumptionText.text = consumption.ToString();
         if (production + consumption == 0) {
-          StartCoroutine(UpdateSlider(powerSlider, 0));
-          StartCoroutine(UpdateSlider(consumptionSlider, 0));
+            StartCoroutine(UpdateSlider(powerSlider, 0));
+            StartCoroutine(UpdateSlider(consumptionSlider, 0));
         } else {
-          StartCoroutine(UpdateSlider(powerSlider, (float)production / (production + consumption)));
-          StartCoroutine(UpdateSlider(consumptionSlider, (float)consumption / (production + consumption)));
+            StartCoroutine(UpdateSlider(powerSlider, (float)production / (production + consumption)));
+            StartCoroutine(UpdateSlider(consumptionSlider, (float)consumption / (production + consumption)));
         }
         powerGenerationWiggle.enabled = Overproduction(production, consumption);
         powerConsumptionrWiggle.enabled = Overconsumption(production, consumption);
