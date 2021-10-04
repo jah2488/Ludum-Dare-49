@@ -162,7 +162,7 @@ public class LevelManager : MonoBehaviour {
         buildings = new List<GameObject>();
         generators = new List<GameObject>();
         pylons = new List<GameObject>();
-        Random.seed = seed;
+        Random.seed = Random.Range(0, 100);
 
         if (spawnObject) {
             spawnObject.transform.position = new Vector3(spawnBounds.x + spawnBounds.width / 2, spawnObject.transform.position.y, spawnBounds.z + spawnBounds.height / 2);
@@ -172,7 +172,6 @@ public class LevelManager : MonoBehaviour {
         }
 
         GameUIManager.i.SetPower(0, 0);
-        GameUIManager.i.RemoveMoney(100);
     }
 
     void Update() {
@@ -283,7 +282,7 @@ public class LevelManager : MonoBehaviour {
         var LOSEGAME_LEVEL = 4;
         var unPoweredBuildings = buildings.FindAll(x => x.GetComponent<PowerConsumer>().ConnectedToPower() == false).Count;
         var unPoweredBuildingsCount = buildings.Count;
-        happiness += (buildings.Count - unPoweredBuildingsCount) * 2;
+        happiness += (buildings.Count - unPoweredBuildingsCount) * 3;
         happiness -= unPoweredBuildingsCount;
         if (money < 0) {
             happiness -= money * -1 / 100;
@@ -297,11 +296,11 @@ public class LevelManager : MonoBehaviour {
         GameUIManager.i.SetHappiness(happiness, happiness < 51);
 
         if (happiness >= 100) {
-            GameManager.i.LoadLevel(WINGAME_LEVEL);
+            GameUIManager.i.GameOver(true);
         }
 
         if (happiness < 0) {
-            GameManager.i.LoadLevel(LOSEGAME_LEVEL);
+            GameUIManager.i.GameOver(false);
         }
     }
 
