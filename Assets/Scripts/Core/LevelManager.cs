@@ -54,10 +54,13 @@ public class LevelManager : MonoBehaviour {
 
     private int nextTick = 1;
     private UIManager uiManager;
+    private bool explosionStarted;
+    private bool overloadStarted;
 
     public List<GameObject> buildings;
     public List<GameObject> generators;
     public List<GameObject> pylons;
+
 
 
     [Button(ButtonSizes.Large, ButtonStyle.Box, Expanded = true)]
@@ -94,6 +97,9 @@ public class LevelManager : MonoBehaviour {
             }
         }
         generators.Add(go);
+        GameUIManager.i.SetPower(getPowerGenerated(), getPowerDraw());
+        GameUIManager.i.RemoveMoney(gen.GetCost());
+        money -= gen.GetCost();
     }
 
     public void OnPylonSpawned(GameObject go) {
@@ -124,8 +130,15 @@ public class LevelManager : MonoBehaviour {
 
         go.GetComponent<PowerDistributor>().SetLevelManager(this);
         pylons.Add(go);
+        GameUIManager.i.SetPower(getPowerGenerated(), getPowerDraw());
+        GameUIManager.i.RemoveMoney(pylon.GetCost());
+        money -= pylon.GetCost();
     }
 
+
+   public void UpdateGameUI() {
+        GameUIManager.i.SetPower(getPowerGenerated(), getPowerDraw());
+   }
 
     void Awake() {
         //Get all generators and buildings currently in the scene.
@@ -154,9 +167,13 @@ public class LevelManager : MonoBehaviour {
         updatePowerUI();
 
         if (Time.time >= nextTick) {
-            nextTick = Mathf.FloorToInt(Time.time) + 1; tick += 1;
+            nextTick = Mathf.FloorToInt(Time.time) + 1; 
+            tick += 1;
             OnTick(tick, Time.deltaTime);
         }
+
+        CheckForOverProduction();
+        CheckForOverConsumption();
     }
 
     void OnTick(int tick, float deltaTime) {
@@ -169,12 +186,66 @@ public class LevelManager : MonoBehaviour {
         }
     }
 
+    void CheckForOverConsumption() {
+        if (getPowerDraw() > getPowerGenerated() && !overloadStarted) {
+            overloadStarted = true;
+            StartCoroutine(StartOverloadTimer(5f));
+            Debug.Log("Overconsuming!");
+        }
+    }
+
+    IEnumerator StartOverloadTimer(float wait) {
+        yield return new WaitForSeconds(wait);
+        PowerDistributor overloadedPylon = pylons[0].GetComponent<PowerDistributor>();
+        foreach(var p in pylons) {
+            overloadedPylon = pylons[0].GetComponent<PowerDistributor>();
+            var pylon = p.GetComponent<PowerDistributor>();
+            if (overloadedPylon.TotalDraw() < pylon.TotalDraw()) {
+                overloadedPylon = pylon;
+            }
+        }
+        overloadedPylon.Overload();
+        overloadStarted = false;
+        yield break;
+    }
+
+    IEnumerator StartExplosionTimer(float wait) {
+        yield return new WaitForSeconds(wait);
+        while(getPowerGenerated() > getPowerDraw() * 1.3f) {
+            Debug.Log("Still Over producing");
+            if (Random.value > 0.5f) {
+                Debug.Log("go boom");
+                if (getPowerGenerated() > getPowerDraw() * 1.4f) {
+                    int randomIndex = Random.Range(0, generators.Count - 1);
+                    var go = generators[randomIndex];
+                    go.GetComponent<PowerGenerator>().Explode();
+                }
+                explosionStarted = false;
+                yield break;
+            }
+        }
+    }
+
+    void CheckForOverProduction() {
+        if (generators.Count < 2) { return; }
+        if (getPowerGenerated() > getPowerDraw() * 1.3f && !explosionStarted) {
+            explosionStarted = true;
+            StartCoroutine(StartExplosionTimer(2f));
+            Debug.Log("Over production");
+        }
+    }
+
     void updatePowerUI() {
         uiManager.UpdatePowerUI(getPowerNeed(), getPowerDraw(), getPowerGenerated());
     }
 
     int getPowerDraw() {
-        return buildings.FindAll(x => x.GetComponent<PowerConsumer>().ConnectedToPower() == true).Count;
+        float powerDraw = 0f;
+        foreach (var building in buildings.FindAll(x => x.GetComponent<PowerConsumer>().ConnectedToPower() == true)) {
+            powerDraw += building.GetComponent<PowerConsumer>().PowerRequired;
+        }
+        return Mathf.RoundToInt(powerDraw);
+ 
     }
 
     int getPowerNeed() {
@@ -182,7 +253,7 @@ public class LevelManager : MonoBehaviour {
         foreach (var building in buildings) {
             powerNeed += building.GetComponent<PowerConsumer>().PowerRequired;
         }
-        return Mathf.FloorToInt(powerNeed);
+        return Mathf.RoundToInt(powerNeed);
     }
 
     int getPowerGenerated() {
@@ -190,21 +261,33 @@ public class LevelManager : MonoBehaviour {
         foreach (var gen in generators) {
             powerGenerated += gen.GetComponent<PowerGenerator>().GetOutput();
         }
-        return Mathf.FloorToInt(powerGenerated);
+        return Mathf.RoundToInt(powerGenerated);
     }
 
     void updateHappiness() {
         var unPoweredBuildings = buildings.FindAll(x => x.GetComponent<PowerConsumer>().ConnectedToPower() == false).Count;
         var unPoweredBuildingsCount = buildings.Count;
-        happiness += buildings.Count;
+        happiness += buildings.Count * 2;
         happiness -= unPoweredBuildingsCount;
+        happiness -= money * -1 / 100;
+        Debug.Log("Happiness: " + happiness);
+        Debug.Log("Happiness++ " + buildings.Count);
+        Debug.Log("Happiness-- " + unPoweredBuildingsCount);
+        Debug.Log("Happiness-- " + money * -1 / 100);
+        if (happiness >= 100) {
+            happiness = 100;
+        }
+        GameUIManager.i.SetHappiness(happiness, happiness < 30);
     }
 
     void updateMoney() {
-        money += buildings.Count;
-        money += buildings.FindAll(x => x.GetComponent<PowerConsumer>().ConnectedToPower() == true).Count * 2;
-        money -= generators.Count;
-    }
+        var newMoney = 0;
+        newMoney += buildings.Count;
+        newMoney += buildings.FindAll(x => x.GetComponent<PowerConsumer>().ConnectedToPower() == true).Count * 2;
+        newMoney -= generators.Count;
+        GameUIManager.i.AddMoney(newMoney);
+        money += newMoney;
+    } 
 
     void spawnBuilding() {
         int buildingType = UnityEngine.Random.Range(0, 5);
@@ -219,6 +302,7 @@ public class LevelManager : MonoBehaviour {
         validateCoordinates(ref x, ref z);
 
         var go = Instantiate(buildingPrefab, new Vector3(x, 0, z), Quaternion.identity);
+        go.GetComponent<PowerConsumer>().SetLevelManager(this);
 
         foreach (var pylon in pylons) {
             var pylonScript = pylon.GetComponent<PowerDistributor>();
@@ -233,7 +317,7 @@ public class LevelManager : MonoBehaviour {
         }
 
         foreach(var r in go.GetComponentsInChildren<Renderer>()) {
-            r.material.color = new Color[]{Color.blue, Color.red, Color.green, Color.cyan, Color.gray}[buildingType];
+            //r.material.color = new Color[]{Color.blue, Color.red, Color.green, Color.cyan, Color.gray}[buildingType];
         }
 
         go.transform.rotation = Quaternion.Euler(0, Random.Range(0, 2) * 90, 0);

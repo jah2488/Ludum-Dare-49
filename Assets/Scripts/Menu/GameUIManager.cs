@@ -73,9 +73,13 @@ public class GameUIManager : MonoBehaviour {
     public void SetPower(int production, int consumption) {
         powerGenerationText.text = production.ToString();
         powerConsumptionText.text = consumption.ToString();
-        StartCoroutine(UpdateSlider(powerSlider, (float)production / (production + consumption)));
-        StartCoroutine(UpdateSlider(consumptionSlider, (float)consumption / (production + consumption)));
-
+        if (production + consumption == 0) {
+          StartCoroutine(UpdateSlider(powerSlider, 0));
+          StartCoroutine(UpdateSlider(consumptionSlider, 0));
+        } else {
+          StartCoroutine(UpdateSlider(powerSlider, (float)production / (production + consumption)));
+          StartCoroutine(UpdateSlider(consumptionSlider, (float)consumption / (production + consumption)));
+        }
         powerGenerationWiggle.enabled = Overproduction(production, consumption);
         powerConsumptionrWiggle.enabled = Overconsumption(production, consumption);
         if (Overproduction(production, consumption)) {
@@ -138,6 +142,7 @@ public class GameUIManager : MonoBehaviour {
 
     // If we update the UI every frame, we will have to remove this coroutine
     IEnumerator UpdateSlider(Slider slider, float pct) {
+        if (float.IsNaN(pct)) { pct = 0; }
         float start = slider.value;
         float elapsed = 0f;
         while (elapsed < 0.5f) {

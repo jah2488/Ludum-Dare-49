@@ -1,13 +1,14 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using ModelShark;
+using HighlightPlus;
 
 // This is a script that can be attached to pylons
 // Clicking on the pylon toggles it on / off
 
 [RequireComponent(typeof(CapsuleCollider))]
 [RequireComponent(typeof(PowerAnimator))]
-public class PowerDistributor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
+public class PowerDistributor : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler {
     public bool isOn = false;
 
     [SerializeField] PowerAnimator powerAnimator;
@@ -21,9 +22,26 @@ public class PowerDistributor : MonoBehaviour, IPointerDownHandler, IPointerUpHa
     [SerializeField] float powerCapcity = 20f;
 
     private LevelManager LevelManager;
+    private bool hovering = false;
+
+    public int GetCost() {
+        return 50;
+    }
 
     void Start() {
         SetTooltip();
+    }
+
+    void Update() {
+        TotalDraw(hovering);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData) {
+        hovering = true;
+    }
+
+    public void OnPointerExit(PointerEventData eventData) {
+        hovering = false;
     }
 
     public void OnPointerDown(PointerEventData _) { }
@@ -47,6 +65,9 @@ public class PowerDistributor : MonoBehaviour, IPointerDownHandler, IPointerUpHa
 
     void SetTooltip() {
         string text = "Status: " + (isOn ? "On" : "Off");
+        if (LevelManager) {
+            text += "\n Powering " + TotalDraw() + " units";
+        }
         _tooltipTrigger.SetText("BodyText", text);
     }
 
@@ -97,5 +118,37 @@ public class PowerDistributor : MonoBehaviour, IPointerDownHandler, IPointerUpHa
                 }
             }
         }
+        LevelManager.UpdateGameUI();
+    }
+
+    public int TotalDraw(bool highlight = false) {
+        if (LevelManager == null) { 
+            Debug.LogError("LevelManager is not assigned!");
+            return -1; 
+        }
+        var total = 0;
+
+        if (!isOn) { return total; }
+        
+        foreach (var building in LevelManager.buildings) {
+            var buildingPosition = building.transform.position;
+            var distance = Vector3.Distance(transform.position, buildingPosition);
+            if (distance <= GetRange()) {
+                total += 1;
+                if (highlight) {
+                    building.GetComponentInChildren<HighlightEffect>().highlighted = true;
+                    building.GetComponentInChildren<HighlightEffect>().targetFX = true;
+                } else {
+                    building.GetComponentInChildren<HighlightEffect>().highlighted = false;
+                    building.GetComponentInChildren<HighlightEffect>().targetFX = false;
+                }
+            }
+        }
+        return total;
+    }
+
+    public void Overload() {
+        //Replace with Damaged Pylon?
+        Switch(false);
     }
 }

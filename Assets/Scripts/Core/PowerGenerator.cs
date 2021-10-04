@@ -35,6 +35,14 @@ public class PowerGenerator : MonoBehaviour {
         }
     }
 
+    public int GetCost() {
+        return 100;
+    }
+
+    public void Explode() {
+        Switch(false);
+    }
+
     public float GetRange() {
         return powerRange.range;
     }
