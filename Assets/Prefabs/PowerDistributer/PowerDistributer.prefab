@@ -213,7 +213,7 @@ MonoBehaviour:
   seeThroughBorderColor: {r: 0, g: 0, b: 0, a: 1}
   seeThroughBorderWidth: 0.45
   seeThroughNonOverlap: 0
-  rmsCount: 10
+  rmsCount: 9
   hitFxInitialIntensity: 1
   hitFxMode: 0
   hitFxFadeOutDuration: 0.25
@@ -1169,8 +1169,8 @@ MonoBehaviour:
   TargetGameObject: {fileID: 8921533729344260654}
   SetStateOnInit: 0
   StateOnInit: 1
-  SetStateOnPlay: 0
-  StateOnPlay: 1
+  SetStateOnPlay: 1
+  StateOnPlay: 0
   SetStateOnStop: 0
   StateOnStop: 1
   SetStateOnReset: 0
