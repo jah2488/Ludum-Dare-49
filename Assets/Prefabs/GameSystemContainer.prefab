@@ -4292,6 +4292,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7824907995681676560, guid: bcd71051bd9f6924d82ba208a6f4aa47, type: 3}
+      propertyPath: entitySpawner
+      value: 
+      objectReference: {fileID: 75675541641414586}
     - target: {fileID: 7824907995681676563, guid: bcd71051bd9f6924d82ba208a6f4aa47, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -4398,9 +4402,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: CameraContainer
       objectReference: {fileID: 0}
+    - target: {fileID: 3923545342063597316, guid: a3ee4341ed5e2d84a9439a8a746593a2, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 64.94833
+      objectReference: {fileID: 0}
+    - target: {fileID: 3923545342063597316, guid: a3ee4341ed5e2d84a9439a8a746593a2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 157.54727
+      objectReference: {fileID: 0}
+    - target: {fileID: 3923545342063597316, guid: a3ee4341ed5e2d84a9439a8a746593a2, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 155.87476
+      objectReference: {fileID: 0}
     - target: {fileID: 3923545342063597317, guid: a3ee4341ed5e2d84a9439a8a746593a2, type: 3}
       propertyPath: orthographic size
-      value: 8
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 4836066274763033106, guid: a3ee4341ed5e2d84a9439a8a746593a2, type: 3}
       propertyPath: m_RootOrder
@@ -4448,7 +4464,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7783359579649838977, guid: a3ee4341ed5e2d84a9439a8a746593a2, type: 3}
       propertyPath: m_Lens.m_SensorSize.x
-      value: 1.8303092
+      value: 1.7777778
       objectReference: {fileID: 0}
     - target: {fileID: 7783359579649838977, guid: a3ee4341ed5e2d84a9439a8a746593a2, type: 3}
       propertyPath: m_Lens.OrthographicSize
